@@ -48,6 +48,10 @@ export default class Product {
     public get price() : number {
         return this._price
     }
+
+    public get id(): string{
+        return this._id
+    }
     
     
 

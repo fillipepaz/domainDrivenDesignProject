@@ -1,3 +1,5 @@
+import { isThisTypeNode } from "typescript";
+
 export default class OrderItem {
     private _id: string;
     private _name: string;
@@ -38,4 +40,15 @@ export default class OrderItem {
         return this._quantity
     }
 
+    public get id(): string {
+        return this._id
+    }
+
+    public get productId(): string {
+        return this._productId
+    }
+
+    public get name(): string {
+        return this._name
+    }
 }

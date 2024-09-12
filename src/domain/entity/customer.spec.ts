@@ -32,7 +32,7 @@ it ("should activate a client", () => {
 
     const customer = new Customer("1", "John");
     const address = new Address("rua a", 45, "alag", "45844555554")
-    customer.Address = address
+    customer.changeAddress(address) 
     customer.activate()
 
     expect(customer.isActive()).toBe(true)

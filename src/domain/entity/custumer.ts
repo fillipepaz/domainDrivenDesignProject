@@ -79,7 +79,7 @@ validate(){
 
 }
 
-set Address(address: Address){ // todo o objeto é recriado.
+ changeAddress(address: Address){ // todo o objeto é recriado.
     this._address = address
 }
 
@@ -98,6 +98,10 @@ public isActive(){
 public get id() : string{
     return this._id
 
+}
+
+public get Address(){
+    return this._address
 }
 
     
