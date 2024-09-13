@@ -1,3 +1,4 @@
+import { where } from 'sequelize';
 import {Sequelize} from 'sequelize-typescript';
 import Address from '../../domain/entity/address';
 import Customer from '../../domain/entity/custumer';
@@ -31,6 +32,45 @@ describe("Order Repository Test", () => {
     afterEach(async() => {
         await sequelize.close()
     });
+    it("Should update a order", async () => {
+        const customerRepository = new CustomerRepository();
+        const customer = new Customer("123", "Joao")
+        const address = new Address("Street",40,"myCity","4080100")
+        customer.changeAddress(address)
+        await customerRepository.create(customer)
+
+        const productRepository = new ProductRepository();
+        const product = new Product("123",10, "Product 1");
+        await productRepository.create(product);
+
+        const orderItem = new OrderItem("1", product.name, product.price, 2, product.id)
+
+        const order = new Order("123","123", [orderItem])
+        
+        const orderRepository = new OrderRepository()
+        await orderRepository.create(order) 
+        const find = await OrderModel.findOne({where: {id: order.id},
+            include: ["items"]
+        
+        });
+        const findedObj = await orderRepository.find(order.id)
+        expect(find.toJSON()).toStrictEqual({
+            id: findedObj.id,
+            customer_id: findedObj.customerId,
+            total: findedObj.total(),
+            items: [
+                {
+                    id: findedObj.items[0].id,
+                    name: findedObj.items[0].name,
+                    price: findedObj.items[0].price,
+                    quantity: findedObj.items[0].quantity,
+                    order_id: findedObj.id,
+                    product_id: findedObj.items[0].productId
+                }
+            ]
+        })
+        expect(order).toEqual(findedObj)
+    })
 
     it("Should create a new order", async () => {
         const customerRepository = new CustomerRepository();
@@ -50,12 +90,12 @@ describe("Order Repository Test", () => {
         const orderRepository = new OrderRepository()
         await orderRepository.create(order)
 
-        const orderModel = await OrderModel.findOne({where: {id: order.id},
+        const find = await OrderModel.findOne({where: {id: order.id},
             include: ["items"]
         
         });
 
-        expect(orderModel.toJSON()).toStrictEqual({
+        expect(find.toJSON()).toStrictEqual({
             id: "123",
             customer_id: "123",
             total: order.total(),
