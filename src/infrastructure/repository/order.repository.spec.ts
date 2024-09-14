@@ -59,13 +59,7 @@ describe("Order Repository Test", () => {
         const orders = [order1, order2]
         const allOrders = await orderRepository.findAll();
         expect(orders).toEqual(allOrders);
-       //console.log(allOrders)
-        //expect(allOrders).toEqual(order1)
-        //make changes
        
-        
-        //console.log(order2)
-        //expect(findedObjAfterChange).toEqual(order2)
 
      
         
