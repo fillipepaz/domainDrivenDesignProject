@@ -32,7 +32,86 @@ describe("Order Repository Test", () => {
     afterEach(async() => {
         await sequelize.close()
     });
-    it("Should update a order", async () => {
+    
+    it("Should get all orders", async () => {
+        const customerRepository = new CustomerRepository();
+        const customer = new Customer("123", "Joao")
+        const address = new Address("Street",40,"myCity","4080100")
+        customer.changeAddress(address)
+        await customerRepository.create(customer)
+
+        const productRepository = new ProductRepository();
+        const product = new Product("123",10, "Product 1");
+        await productRepository.create(product);
+        const product2 = new Product("122",20, "Product 2");
+        await productRepository.create(product2);
+
+        const orderItem1 = new OrderItem("1", product.name, product.price, 2, product.id)
+        const orderItem2 = new OrderItem("2", product2.name, product2.price, 4, product2.id)
+
+        const order1 = new Order("123","123", [orderItem1]) 
+        const order2 = new Order("124","123", [orderItem2])
+       
+        
+        const orderRepository = new OrderRepository()
+        await orderRepository.create(order1) 
+        await orderRepository.create(order2) 
+        const orders = [order1, order2]
+        const allOrders = await orderRepository.findAll();
+        expect(orders).toEqual(allOrders);
+       //console.log(allOrders)
+        //expect(allOrders).toEqual(order1)
+        //make changes
+       
+        
+        //console.log(order2)
+        //expect(findedObjAfterChange).toEqual(order2)
+
+     
+        
+
+        
+    })
+
+    it("Should update an order", async () => {
+        const customerRepository = new CustomerRepository();
+        const customer = new Customer("123", "Joao")
+        const address = new Address("Street",40,"myCity","4080100")
+        customer.changeAddress(address)
+        await customerRepository.create(customer)
+
+        const productRepository = new ProductRepository();
+        const product = new Product("123",10, "Product 1");
+        await productRepository.create(product);
+
+        const orderItem1 = new OrderItem("1", product.name, product.price, 2, product.id)
+        
+
+        const order1 = new Order("123","123", [orderItem1])
+       
+        
+        const orderRepository = new OrderRepository()
+        await orderRepository.create(order1) 
+        
+        const findedObjBeforeChange = await orderRepository.find(order1.id)
+        expect(findedObjBeforeChange).toEqual(findedObjBeforeChange)
+        //make changes
+        const product2 = new Product("122",20, "Product 2");
+        await productRepository.create(product2);
+        const orderItem2 = new OrderItem("2", product2.name, product2.price, 4, product2.id)
+        const order2 = new Order("123","123", [orderItem1, orderItem2])
+        await orderRepository.update(order2);
+        const findedObjAfterChange = await orderRepository.find(order2.id)
+        //console.log(order2)
+        //expect(findedObjAfterChange).toEqual(order2)
+
+     
+        
+
+        
+    })
+
+    it("Should find an order", async () => {
         const customerRepository = new CustomerRepository();
         const customer = new Customer("123", "Joao")
         const address = new Address("Street",40,"myCity","4080100")

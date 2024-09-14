@@ -32,22 +32,27 @@ async update(entity: Order): Promise<void> {
     id: entity.id,
     customer_id: entity.customerId,
     total: entity.total(),
-    items: entity.items.map((item) => ({
+    items: entity.items
+     /*entity.items.map((item) => ({
       id: item.id,
       name: item.name,
       price: item.price,
       product_id: item.productId,
       quantity: item.quantity
-    })),
-  }
-  ,
+    })),*/
+    
+  },
+  
   {
-    //include: [{model: OrderItemModel}],
+    
     where: {
       id: entity.id,
+    
   }
+    
 
-  }
+  },
+  
   );
   
 
@@ -64,21 +69,21 @@ let itens =  orderModel.items.map((item) => {
   })
   return new Order(orderModel.id, orderModel.customer_id, itens)
 }
+
 async findAll(): Promise<Order[]> {
+  const orderModels = await OrderModel.findAll({
+    include: ["items"],
+  });
 
-  const orderModels = await OrderModel.findAll();
   return orderModels.map((orderI) => {
-      
-      let itens =  orderI.items.map((item) => {
-      let orderItem = new OrderItem(item.id, item.name, item.price, item.quantity, item.product_id)
-      return orderItem
-    }) 
-            
-    let order = new Order(orderI.id, orderI.customer_id, itens)
+    const itens = orderI.items.map((item) => {
+      return new OrderItem(item.id, item.name, item.price, item.quantity, item.product_id);
+    });
 
-    return order
-    
-})
-    
+    return new Order(orderI.id, orderI.customer_id, itens);
+  });
 }
+
+
 }
+
