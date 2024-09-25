@@ -96,8 +96,8 @@ describe("Order Repository Test", () => {
         const order2 = new Order("123","123", [orderItem1, orderItem2])
         await orderRepository.update(order2);
         const findedObjAfterChange = await orderRepository.find(order2.id)
-        //console.log(order2)
-        //expect(findedObjAfterChange).toEqual(order2)
+        console.log(findedObjAfterChange)
+        expect(findedObjAfterChange).toEqual(order2)
 
      
         
