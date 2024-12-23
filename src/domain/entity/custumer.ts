@@ -2,6 +2,12 @@
 //entidade anemica -> sem regra de negócio
 //dto: data transfer object
 
+import EventDispatcher from "../event/@shared/eventDispatcher";
+import CustomerChangeAddressEvent from "../event/customer/customerChangeAddressEvent.event";
+import CustomerCreatedEvent from "../event/customer/customerCreatedEvent.event";
+import CustomerCreatedHandler2 from "../event/customer/handler/enviaConsoleLog1Handler";
+import CustomerCreatedHandler1 from "../event/customer/handler/enviaConsoleLog2Handler";
+import CustomerChangeAddressHandler from "../event/customer/handler/enviaConsoleLogHandler";
 import Address from "./address";
 
 /*
@@ -14,6 +20,10 @@ export default class Customer {
     private _active: boolean = false;
     private _address!: Address;
     private _rewardPoints: number = 0;
+    private _eventDispatcher: EventDispatcher
+    private _eventHandler1 = new CustomerCreatedHandler1();
+    private _eventHandler2 = new CustomerCreatedHandler2();
+ 
 
     constructor(id: string, name: string) {
     //os parâmetros do construtor ajudam a garantir a consistência.
@@ -22,7 +32,20 @@ export default class Customer {
     //this._address = address;
     this._id  = id;
     this._name = name;
-    this.validate()      
+    this.validate()
+    const customerCreatedEvent = new CustomerCreatedEvent({
+    name: this._name,
+    id: this._id
+
+    })
+    this._eventDispatcher = new EventDispatcher();
+
+    this._eventDispatcher.register("customerCreatedEvent", this._eventHandler1);
+    this._eventDispatcher.register("customerCreatedEvent", this._eventHandler2); 
+    
+    this._eventDispatcher.notify(customerCreatedEvent)
+    
+      
     }
 
     /*
@@ -81,6 +104,17 @@ validate(){
 
  changeAddress(address: Address){ // todo o objeto é recriado.
     this._address = address
+    if (!this._eventDispatcher.getEventHandlers["customerChangeAddressEvent"]){
+        const customerChangeAddressHandler = new CustomerChangeAddressHandler()
+        this._eventDispatcher.register("customerChangeAddressEvent", customerChangeAddressHandler);
+    }
+    const custumerChangeAddressEvent = new CustomerChangeAddressEvent(
+        {address: this.Address,
+            id: this._id,
+            name: this._name
+        }
+    )
+    this._eventDispatcher.notify(custumerChangeAddressEvent)
 }
 
 
