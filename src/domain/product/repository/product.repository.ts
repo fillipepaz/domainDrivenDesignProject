@@ -1,5 +1,6 @@
 
-import ProductModel from "../../../infrastructure/database/sequelize/model/product.model";
+
+import ProductModel from "../../../infrastructure/database/sequelize/model/product/product.model";
 import Product from "../entity/product";
 import ProductRepositoryInterface from "./product-repository.interface";
 

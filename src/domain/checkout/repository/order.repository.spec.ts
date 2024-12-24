@@ -1,9 +1,9 @@
 import { where } from 'sequelize';
 import {Sequelize} from 'sequelize-typescript';
-import CustomerModel from '../../../infrastructure/database/sequelize/model/customer.model';
-import OrderItemModel from '../../../infrastructure/database/sequelize/model/order-item.model';
-import OrderModel from '../../../infrastructure/database/sequelize/model/order.model';
-import ProductModel from '../../../infrastructure/database/sequelize/model/product.model';
+import CustomerModel from '../../../infrastructure/database/sequelize/model/customer/customer.model';
+import OrderItemModel from '../../../infrastructure/database/sequelize/model/checkout/order-item.model';
+import OrderModel from '../../../infrastructure/database/sequelize/model/checkout/order.model';
+import ProductModel from '../../../infrastructure/database/sequelize/model/product/product.model';
 import Customer from '../../customer/entity/custumer';
 import CustomerRepository from '../../customer/repository/customer.repository';
 import Address from '../../customer/value-object/address';

@@ -1,5 +1,6 @@
 
-import CustomerModel from "../../../infrastructure/database/sequelize/model/customer.model";
+
+import CustomerModel from "../../../infrastructure/database/sequelize/model/customer/customer.model";
 import Customer from "../entity/custumer";
 import Address from "../value-object/address";
 import CustomerRepositoryInterface from "./customer-repository.interface";

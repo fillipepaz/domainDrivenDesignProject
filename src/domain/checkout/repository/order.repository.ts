@@ -1,6 +1,6 @@
 
-import OrderItemModel from "../../../infrastructure/database/sequelize/model/order-item.model";
-import OrderModel from "../../../infrastructure/database/sequelize/model/order.model";
+import OrderItemModel from "../../../infrastructure/database/sequelize/model/checkout/order-item.model";
+import OrderModel from "../../../infrastructure/database/sequelize/model/checkout/order.model";
 import Order from "../entity/order";
 
 import OrderItem from "../entity/order_items";
